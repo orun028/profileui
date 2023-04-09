@@ -9,6 +9,18 @@ import Foundation
 import FirebaseAuth
 import AuthenticationServices
 
+struct AuthDataResultModel {
+    let uid: String
+    let email: String?
+    let photoUrl: String?
+    
+    init(user: User) {
+        self.uid = user.uid
+        self.email = user.email
+        self.photoUrl = user.photoURL?.absoluteString
+    }
+}
+
 enum AuthProviderOption: String {
     case google = "google.com"
     case microsoft = "microsoft.com"
@@ -16,6 +28,7 @@ enum AuthProviderOption: String {
 
 final class AuthenticationManager {
     static let shared = AuthenticationManager()
+    
     private init() {}
     
     private var oauthProvider: OAuthProvider!
@@ -43,18 +56,6 @@ final class AuthenticationManager {
     
     func signOut() throws {
         try Auth.auth().signOut()
-    }
-}
-
-struct AuthDataResultModel {
-    let uid: String
-    let email: String?
-    let photoUrl: String?
-    
-    init(user: User) {
-        self.uid = user.uid
-        self.email = user.email
-        self.photoUrl = user.photoURL?.absoluteString
     }
 }
 

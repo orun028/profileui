@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>627910942871-f0n15uh2v1icp97dk9oefbj916bo8gmt.apps.googleusercontent.com</string>
+	<string>558619019072-8e5tud7feom8hilpqukd8fu0n81tlqtr.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.627910942871-f0n15uh2v1icp97dk9oefbj916bo8gmt</string>
+	<string>com.googleusercontent.apps.558619019072-8e5tud7feom8hilpqukd8fu0n81tlqtr</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDF-WUqlqp04pNI-erZmIrpyCY7gltSZkI</string>
+	<string>AIzaSyDjga0TpHfSTSLaUeIslTgbj0qzxEKc_9A</string>
 	<key>GCM_SENDER_ID</key>
-	<string>627910942871</string>
+	<string>558619019072</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.orun028.tusers</string>
+	<string>com.orun028.profileui</string>
 	<key>PROJECT_ID</key>
-	<string>logical-seat-278214</string>
+	<string>profileui-52df8</string>
 	<key>STORAGE_BUCKET</key>
-	<string>logical-seat-278214.appspot.com</string>
+	<string>profileui-52df8.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:627910942871:ios:66dbf154c953ad3eb2c9d2</string>
-	<key>DATABASE_URL</key>
-	<string>https://logical-seat-278214.firebaseio.com</string>
+	<string>1:558619019072:ios:28e788af1d7ddbc4661ca5</string>
 </dict>
 </plist>

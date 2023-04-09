@@ -20,13 +20,13 @@
 		8438FB6729D9CA7900D9D6FE /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8438FB6629D9CA7900D9D6FE /* SettingsView.swift */; };
 		8438FB6A29D9DD4D00D9D6FE /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 8438FB6929D9DD4D00D9D6FE /* FirebaseFirestore */; };
 		8438FB6C29D9DD4D00D9D6FE /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8438FB6B29D9DD4D00D9D6FE /* FirebaseFirestoreSwift */; };
-		845CBCC929DC65EC00BC1EFC /* CustomAuthUIDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845CBCC829DC65EC00BC1EFC /* CustomAuthUIDelegate.swift */; };
 		845CBCDA29DDA81600BC1EFC /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845CBCD929DDA81600BC1EFC /* UserManager.swift */; };
-		84AB0C3D29DDB87B004DB78A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 84AB0C3C29DDB87B004DB78A /* GoogleService-Info.plist */; };
 		84AB0C4129DDC763004DB78A /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AB0C4029DDC763004DB78A /* Location.swift */; };
 		84AB0C4F29DDDA89004DB78A /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AB0C4E29DDDA89004DB78A /* MapViewModel.swift */; };
 		84AB0C5129DDE01B004DB78A /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AB0C5029DDE01B004DB78A /* MapView.swift */; };
 		84AB0C5329DF151F004DB78A /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AB0C5229DF151F004DB78A /* CameraView.swift */; };
+		84AB0C6429E30CA0004DB78A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 84AB0C6329E30CA0004DB78A /* GoogleService-Info.plist */; };
+		84B3A66629E316A7005841C1 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 84B3A66529E316A7005841C1 /* Alamofire */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,13 +40,13 @@
 		8438FB6229D9C24F00D9D6FE /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
 		8438FB6429D9C8BB00D9D6FE /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
 		8438FB6629D9CA7900D9D6FE /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		845CBCC829DC65EC00BC1EFC /* CustomAuthUIDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAuthUIDelegate.swift; sourceTree = "<group>"; };
 		845CBCD929DDA81600BC1EFC /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
-		84AB0C3C29DDB87B004DB78A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		84AB0C4029DDC763004DB78A /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		84AB0C4E29DDDA89004DB78A /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		84AB0C5029DDE01B004DB78A /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		84AB0C5229DF151F004DB78A /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		84AB0C6229E30AA0004DB78A /* FIRAuthDataResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FIRAuthDataResult.h; sourceTree = "<group>"; };
+		84AB0C6329E30CA0004DB78A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +57,7 @@
 				8438FB6C29D9DD4D00D9D6FE /* FirebaseFirestoreSwift in Frameworks */,
 				8438FB5729D9B14F00D9D6FE /* GoogleSignIn in Frameworks */,
 				8438FB6A29D9DD4D00D9D6FE /* FirebaseFirestore in Frameworks */,
+				84B3A66629E316A7005841C1 /* Alamofire in Frameworks */,
 				8438FB6129D9C0FC00D9D6FE /* FirebaseAuth in Frameworks */,
 				8438FB5929D9B14F00D9D6FE /* GoogleSignInSwift in Frameworks */,
 			);
@@ -86,7 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				8438FB5A29D9B1A300D9D6FE /* Info.plist */,
-				84AB0C3C29DDB87B004DB78A /* GoogleService-Info.plist */,
+				84AB0C6329E30CA0004DB78A /* GoogleService-Info.plist */,
 				8438FB4B29D9AE5800D9D6FE /* Preview Content */,
 				845CBCD829DDA7DE00BC1EFC /* Model */,
 				84AB0C5929E05994004DB78A /* ViewModel */,
@@ -95,6 +96,7 @@
 				8438FB5C29D9BDBA00D9D6FE /* Utilities */,
 				8438FB4529D9AE5700D9D6FE /* profileuiApp.swift */,
 				8438FB4929D9AE5800D9D6FE /* Assets.xcassets */,
+				84AB0C6229E30AA0004DB78A /* FIRAuthDataResult.h */,
 			);
 			path = profileui;
 			sourceTree = "<group>";
@@ -111,7 +113,6 @@
 			isa = PBXGroup;
 			children = (
 				8438FB5D29D9BDD300D9D6FE /* Utilities.swift */,
-				845CBCC829DC65EC00BC1EFC /* CustomAuthUIDelegate.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -182,6 +183,7 @@
 				8438FB6029D9C0FC00D9D6FE /* FirebaseAuth */,
 				8438FB6929D9DD4D00D9D6FE /* FirebaseFirestore */,
 				8438FB6B29D9DD4D00D9D6FE /* FirebaseFirestoreSwift */,
+				84B3A66529E316A7005841C1 /* Alamofire */,
 			);
 			productName = profileui;
 			productReference = 8438FB4229D9AE5700D9D6FE /* profileui.app */;
@@ -214,6 +216,7 @@
 			packageReferences = (
 				8438FB5529D9B14F00D9D6FE /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				8438FB5F29D9C0FC00D9D6FE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				84B3A66429E316A7005841C1 /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			productRefGroup = 8438FB4329D9AE5700D9D6FE /* Products */;
 			projectDirPath = "";
@@ -230,8 +233,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8438FB4D29D9AE5800D9D6FE /* Preview Assets.xcassets in Resources */,
+				84AB0C6429E30CA0004DB78A /* GoogleService-Info.plist in Resources */,
 				8438FB4A29D9AE5800D9D6FE /* Assets.xcassets in Resources */,
-				84AB0C3D29DDB87B004DB78A /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,7 +252,6 @@
 				84AB0C4129DDC763004DB78A /* Location.swift in Sources */,
 				8438FB4829D9AE5700D9D6FE /* ContentView.swift in Sources */,
 				84AB0C4F29DDDA89004DB78A /* MapViewModel.swift in Sources */,
-				845CBCC929DC65EC00BC1EFC /* CustomAuthUIDelegate.swift in Sources */,
 				8438FB6729D9CA7900D9D6FE /* SettingsView.swift in Sources */,
 				8438FB4629D9AE5700D9D6FE /* profileuiApp.swift in Sources */,
 				845CBCDA29DDA81600BC1EFC /* UserManager.swift in Sources */,
@@ -387,6 +389,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = profileui/profileuiDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"profileui/Preview Content\"";
@@ -397,8 +400,8 @@
 				INFOPLIST_KEY_CFBundleDisplayName = ProfileUI;
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need to access your camera for scanning QR codes";
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "Please allow to continue with face id";
-				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "We need to access your location for location";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need to access your location for location";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -409,7 +412,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.rus28.profileui;
+				PRODUCT_BUNDLE_IDENTIFIER = com.orun028.profileui;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -435,8 +438,8 @@
 				INFOPLIST_KEY_CFBundleDisplayName = ProfileUI;
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need to access your camera for scanning QR codes";
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "Please allow to continue with face id";
-				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "We need to access your location for location";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need to access your location for location";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -447,7 +450,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.rus28.profileui;
+				PRODUCT_BUNDLE_IDENTIFIER = com.orun028.profileui;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -498,6 +501,14 @@
 				minimumVersion = 10.0.0;
 			};
 		};
+		84B3A66429E316A7005841C1 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -525,6 +536,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8438FB5F29D9C0FC00D9D6FE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestoreSwift;
+		};
+		84B3A66529E316A7005841C1 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 84B3A66429E316A7005841C1 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

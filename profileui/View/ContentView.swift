@@ -6,26 +6,62 @@
 //
 
 import SwiftUI
+import Firebase
+
+enum AuthenticationState {
+    case authentication
+    case loading
+    case authenticated
+}
+
+class AuthView: ObservableObject {
+    @Published var authenticationState: AuthenticationState = .loading
+    
+    private var handle: AuthStateDidChangeListenerHandle?
+    
+    func listen() {
+        handle = Auth.auth().addStateDidChangeListener { [weak self] auth, user in
+            guard let self = self else { return }
+            if let _ = user {
+                self.authenticationState = .authenticated
+            } else {
+                self.authenticationState = .authentication
+            }
+        }
+    }
+    
+    func stopListening() {
+        if let handle = handle {
+            Auth.auth().removeStateDidChangeListener(handle)
+        }
+    }
+}
 
 struct ContentView: View {
+    @StateObject var authView = AuthView()
     
-    @State private var showSignInView: Bool = false
     var body: some View {
-        ZStack {
-            if !showSignInView {
+        Group {
+            switch authView.authenticationState {
+            case .authentication:
                 NavigationStack {
-                    SettingsView(showSignInView: $showSignInView)
+                    AuthenticationView()
+                }
+            case .loading:
+                NavigationStack {
+                    ProgressView()
+                }
+            case .authenticated:
+                NavigationStack {
+                    SettingsView()
                 }
             }
         }
         .onAppear {
-            let authUser = try? AuthenticationManager.shared.getAuthenticationUser()
-            self.showSignInView = authUser == nil
+            authView.listen()
         }
-        .fullScreenCover(isPresented: $showSignInView) {
-            NavigationStack {
-                AuthenticationView(showSignInView: $showSignInView)
-            }
+        .onDisappear {
+            authView.stopListening()
         }
     }
 }

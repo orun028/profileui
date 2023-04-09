@@ -8,61 +8,23 @@
 import SwiftUI
 import LocalAuthentication
 import CoreLocation
+import SystemConfiguration.CaptiveNetwork
 
 @MainActor
 final class SettingViewModel: ObservableObject {
-    @Published var showAlert = false
     @Published private(set) var user: DBUser? = nil
     
     func loadCurrentUser() async throws {
         let authDataResult = try AuthenticationManager.shared.getAuthenticationUser()
         self.user = try await UserManager.shared.getUser(userId: authDataResult.uid)
     }
-    
-    func logOut() throws {
-        try AuthenticationManager.shared.signOut()
-    }
-    
-    func checkFaceID() throws -> Bool {
-        let context = LAContext()
-        var error: NSError? = nil
-        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-            let reason = "Please authorize with touch id!"
-            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, error in
-                if success {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                        let alert = UIAlertController(title: "Success", message: "Authentication successful", preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "Close", style: .cancel, handler: nil))
-                        
-                        if let rootViewController = UIApplication.shared.windows.first?.rootViewController {
-                                rootViewController.present(alert, animated: true, completion: nil)
-                            }
-                    }
-                    return
-                } else {
-                    if let error = error {
-                        print("Authentication failed \(error)")
-                    } else {
-                        print("Authentication failed")
-                    }
-                }
-            }
-            return false
-        }
-        else {
-            //let alert = UIAlertController(title: "Unavailable", message: "You cant use this feature", preferredStyle: .alert)
-            //alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
-            return false
-        }
-    }
 }
+
 struct SettingsView: View {
     @Environment(\.presentationMode) var presentationMode
-    @Binding var showSignInView: Bool
     @StateObject private var viewModel = SettingViewModel()
     
     var body: some View {
-       
         VStack {
             if let user = viewModel.user {
                 HStack(alignment: .top) {
@@ -95,13 +57,11 @@ struct SettingsView: View {
                 .padding(.horizontal)
                 .padding(.top)
             }
-            
             List{
                 Button("Log out") {
                     Task {
                         do {
-                            try viewModel.logOut()
-                            showSignInView = true
+                            try AuthenticationManager.shared.signOut()
                         } catch {
                             print(error)
                         }
@@ -111,22 +71,32 @@ struct SettingsView: View {
                     Button {
                         Task{
                             do {
-                                let success = try viewModel.checkFaceID()
-                                print(success)
+                                try Utilities.shared.checkFaceID()
                             } catch {
                                 print(error)
                             }
                         }
                     } label: {
                         Text("Check Face ID")
+                            .foregroundColor(.gray)
                     }
                     
-                    NavigationLink(destination: MapView(showSignInView: $showSignInView)) {
+                    Button {
+                        let type = Utilities.shared.getNetworkType()
+                        let ssid = Utilities.shared.getWiFiSsid()
+//                        let publicIP = Utilities.shared.getPublicIPAddress()
+                        Utilities.shared.showAlert(title: "Infomation network", message: "\(type): \(ssid ?? "")")
+                    } label: {
+                        Text("Show infomation network")
+                            .foregroundColor(.gray)
+                    }
+                    
+                    NavigationLink(destination: MapView()) {
                         Text("Check the current location")
                     }
                     
                     NavigationLink(destination: CameraView()) {
-                        Text("Check camera")
+                        Text("Check QR-Code")
                     }
                     
                 }
@@ -144,6 +114,6 @@ struct SettingsView: View {
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView(showSignInView: .constant(false))
+        SettingsView()
     }
 }

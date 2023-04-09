@@ -30,10 +30,8 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         case .denied:
             permissionDenied.toggle()
         case .notDetermined:
-            //
             manager.requestWhenInUseAuthorization()
         case .authorizedWhenInUse:
-            //
             manager.requestLocation()
         default:
             ()

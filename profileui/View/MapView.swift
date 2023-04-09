@@ -11,14 +11,10 @@ import CoreLocation
 
 struct MapView: View {
     @Environment(\.presentationMode) var presentationMode
-    @Binding var showSignInView: Bool
     @StateObject var viewModel = MapViewModel()
     // Lets put a defaut distance of 1 = 1km = 1000m
     // 0.1 to 100m -> 0.01 -> 10m
     let distance: Double = 0.05 // unit km = 10m
-    
-    @State var la = 10.7507409 //10.7744675
-    @State var long = 106.7128363 //106.7986732
     
     @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 10.7507409, longitude: 106.7128363), span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1))
     
@@ -194,12 +190,12 @@ struct MapUIView: UIViewRepresentable {
     
     func updateUIView(_ view: MKMapView, context: Context) {
         view.setRegion(region, animated: true)
-       
-        let circle = MKCircle(center: region.center, radius: distance * 1000)
-        let mapRect = circle.boundingMapRect
-            
-        view.setVisibleMapRect(mapRect, edgePadding: UIEdgeInsets(top: 50, left: 50, bottom: 50, right: 50), animated: true)
-        view.addOverlay(circle)
+
+//        let circle = MKCircle(center: region.center, radius: distance * 1000)
+//        let mapRect = circle.boundingMapRect
+//
+//        view.setVisibleMapRect(mapRect, edgePadding: UIEdgeInsets(top: 50, left: 50, bottom: 50, right: 50), animated: true)
+//        view.addOverlay(circle)
         
     }
     
@@ -217,23 +213,23 @@ struct MapUIView: UIViewRepresentable {
             }
         }
         
-        func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-            guard let circleOverlay = overlay as? MKCircle else {
-                return MKOverlayRenderer()
-            }
-            let circleRenderer = MKCircleRenderer(overlay: circleOverlay)
-            circleRenderer.fillColor = UIColor(named: "MapZoneColor")
-            circleRenderer.strokeColor = UIColor(named: "MapColor")
-            circleRenderer.lineWidth = 1.5
-            return circleRenderer
-        }
+//        func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+//            guard let circleOverlay = overlay as? MKCircle else {
+//                return MKOverlayRenderer()
+//            }
+//            let circleRenderer = MKCircleRenderer(overlay: circleOverlay)
+//            circleRenderer.fillColor = UIColor(named: "MapZoneColor")
+//            circleRenderer.strokeColor = UIColor(named: "MapColor")
+//            circleRenderer.lineWidth = 1.5
+//            return circleRenderer
+//        }
 
     }
 }
 
 struct MapView_Previews: PreviewProvider {
     static var previews: some View {
-        MapView(showSignInView: .constant(false))
+        MapView()
     }
 }
 

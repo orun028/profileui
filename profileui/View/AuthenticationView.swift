@@ -19,6 +19,7 @@ struct GoogleSignInResultModel {
 
 @MainActor
 final class AuthenticationViewModel: ObservableObject {
+    
     func signInGoogle() async throws {
         guard let topVC = Utilities.shared.topViewController() else {
             throw URLError(.cannotFindHost)
@@ -36,14 +37,48 @@ final class AuthenticationViewModel: ObservableObject {
         try await UserManager.shared.createNewUser(user: user)
     }
     
-    func signInMicrosoft() async throws {
+    func signInMicrosoft(provider: OAuthProvider) async throws {
+        var authDataResult: AuthDataResultModel!
         
+        provider.customParameters = [
+          "prompt": "consent",
+        ]
+        provider.scopes = ["user.read"]
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            provider.getCredentialWith(nil) { credential, error in
+                if let error = error {
+                    print("Error getting Microsoft credential: \(error.localizedDescription)")
+                    return
+                }
+                guard let credential = credential else {
+                    print("No credential")
+                    return
+                }
+                print(credential)
+                Auth.auth().signIn(with: credential) { authResult, error in
+                    if let error = error {
+                        print("Error signing in with Microsoft: \(error.localizedDescription)")
+                        return
+                    }
+                    
+                    if let user = authResult?.user {
+                        authDataResult = AuthDataResultModel(user: user)
+                        
+                        // User is signed in with Microsoft.
+                    }
+                    
+                }
+            }
+//        }
+        if (authDataResult != nil) {
+            try await UserManager.shared.createNewUser(user: DBUser(auth: authDataResult))
+        }
     }
 }
 
 struct AuthenticationView: View {
     @StateObject private var viewModel = AuthenticationViewModel()
-    @Binding var showSignInView: Bool
+    var provider = OAuthProvider(providerID: "microsoft.com")
     
     var body: some View {
         VStack {
@@ -57,7 +92,6 @@ struct AuthenticationView: View {
                 Task {
                     do {
                         try await viewModel.signInGoogle()
-                        showSignInView = false
                     } catch {
                         print(error)
                     }
@@ -85,8 +119,7 @@ struct AuthenticationView: View {
             Button{
                 Task {
                     do {
-                        try await viewModel.signInMicrosoft()
-                        showSignInView = false
+                        try await viewModel.signInMicrosoft(provider: provider)
                     } catch {
                         print(error)
                     }
@@ -117,6 +150,6 @@ struct AuthenticationView: View {
 
 struct AuthenticationView_Previews: PreviewProvider {
     static var previews: some View {
-        AuthenticationView(showSignInView: .constant(false))
+        AuthenticationView()
     }
 }

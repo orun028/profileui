@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 // NETWORK
 import SystemConfiguration.CaptiveNetwork
+import NetworkExtension
 import Alamofire
 // FACEID
 import SwiftUI
@@ -50,26 +51,20 @@ final class Utilities {
     }
 
     func getWiFiSsid() -> String? {
-        let locationWhenInUse = Bundle.main.object(forInfoDictionaryKey: "NSLocationWhenInUseUsageDescription") as? String
-        let locationAlwaysAndWhenInUse = Bundle.main.object(forInfoDictionaryKey: "NSLocationAlwaysAndWhenInUseUsageDescription") as? String
-
-        if locationWhenInUse == nil {
-            print("App does not have NSLocationWhenInUseUsageDescription key in Info.plist")
-            locationManager.requestWhenInUseAuthorization()
-        }
-
-        if locationAlwaysAndWhenInUse == nil {
-            print("App does not have NSLocationAlwaysAndWhenInUseUsageDescription key in Info.plist")
-            locationManager.requestAlwaysAuthorization()
-        }
-
         var ssid: String?
-        if let interfaces = CNCopySupportedInterfaces() as NSArray? {
-            for interface in interfaces {
-                if let interfaceInfo = CNCopyCurrentNetworkInfo(interface as! CFString) as NSDictionary? {
-                    ssid = interfaceInfo[kCNNetworkInfoKeySSID as String] as? String
-                    break
-                }
+//        if let interfaces = CNCopySupportedInterfaces() as NSArray? {
+//            for interface in interfaces {
+//                if let interfaceInfo = CNCopyCurrentNetworkInfo(interface as! CFString) as NSDictionary? {
+//                    ssid = interfaceInfo[kCNNetworkInfoKeySSID as String] as? String
+//                    break
+        //                }
+        //            }
+        //        }
+        NEHotspotNetwork.fetchCurrent() {
+            hotspotNetwork in
+            if let ssidvalue = hotspotNetwork?.ssid {
+                ssid = ssidvalue
+                print(ssidvalue)
             }
         }
         return ssid
@@ -108,13 +103,15 @@ final class Utilities {
         return internalIP
     }
     
-    func checkFaceID() throws {
+    func checkFaceID() throws -> Bool {
         let context = LAContext()
+        var isOK: Bool = false
         var error: NSError? = nil
         if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
             let reason = "Please authorize with touch id!"
             context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, error in
                 if success {
+                    isOK = true
                   self.showAlert(title: "Success", message: "Authentication successful")
                 } else {
                     if let error = error {
@@ -128,6 +125,7 @@ final class Utilities {
         else {
             showAlert(title: "Unavailable", message: "You cant use this feature")
         }
+        return isOK
     }
     
     func showAlert(title: String, message: String) {

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import LocalAuthentication
+import MapKit
 import CoreLocation
 import SystemConfiguration.CaptiveNetwork
 
@@ -18,11 +19,21 @@ final class SettingViewModel: ObservableObject {
         let authDataResult = try AuthenticationManager.shared.getAuthenticationUser()
         self.user = try await UserManager.shared.getUser(userId: authDataResult.uid)
     }
+    
 }
 
 struct SettingsView: View {
     @Environment(\.presentationMode) var presentationMode
     @StateObject private var viewModel = SettingViewModel()
+    @State private var ssid: String?
+    @State private var faceidState = false
+    @State private var isShowingScanner = false
+    @State private var qrcode = ""
+    @StateObject var mapViewModel = MapViewModel()
+    
+    init() {
+        ssid = Utilities.shared.getWiFiSsid()
+    }
     
     var body: some View {
         VStack {
@@ -54,9 +65,14 @@ struct SettingsView: View {
                     
                 }
                 .frame(maxWidth: .infinity, maxHeight: 60, alignment: .leading)
-                .padding(.horizontal)
-                .padding(.top)
+                .padding()
             }
+            Text("Wifi SSID: \(ssid ?? "None")")
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal)
+            Text("QR-code: \(qrcode)")
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal)
             List{
                 Button("Log out") {
                     Task {
@@ -71,7 +87,7 @@ struct SettingsView: View {
                     Button {
                         Task{
                             do {
-                                try Utilities.shared.checkFaceID()
+                                faceidState = try Utilities.shared.checkFaceID()
                             } catch {
                                 print(error)
                             }
@@ -80,35 +96,64 @@ struct SettingsView: View {
                         Text("Check Face ID")
                             .foregroundColor(.gray)
                     }
-                    
-                    Button {
-                        let type = Utilities.shared.getNetworkType()
-                        let ssid = Utilities.shared.getWiFiSsid()
-//                        let publicIP = Utilities.shared.getPublicIPAddress()
-                        Utilities.shared.showAlert(title: "Infomation network", message: "\(type): \(ssid ?? "")")
+                    NavigationLink(destination: MapView(), label: {
+                        Text("Map view")
+                    })
+                    Button  {
+                        Task{
+                            self.isShowingScanner = true
+                        }
                     } label: {
-                        Text("Show infomation network")
-                            .foregroundColor(.gray)
+                        Text("Check-in")
                     }
-                    
-                    NavigationLink(destination: MapView()) {
-                        Text("Check the current location")
-                    }
-                    
-                    NavigationLink(destination: CameraView()) {
-                        Text("Check QR-Code")
-                    }
-                    
                 }
+
             }
             .background(.white)
             .padding(.top)
         }
+        .onAppear(perform: {
+            mapViewModel.locationManager.requestWhenInUseAuthorization()
+        })
         .task {
             try? await viewModel.loadCurrentUser()
         }
         .frame(maxWidth: .infinity, alignment: .topLeading)
         .navigationBarTitle("Settings")
+        .sheet(isPresented: $isShowingScanner, onDismiss: {
+            // Handle what happens when the scanner is dismissed (e.g. save the scanned code)
+            Task {
+                do {
+                    try await self.saveScannedCode()
+                } catch {
+                    print(error)
+                }
+                
+            }
+        }) {
+            QRCodeScanner(scannedCode: self.$qrcode)
+        }
+    }
+    
+    func saveScannedCode() async throws {
+        
+        let pinlocation = try await LocationManager.shared.getLocation(locationid: "1")
+        if pinlocation.qrcode == qrcode {
+            print("ok qrcode")
+            let location2 = CLLocationCoordinate2D(latitude: Double(pinlocation.latitude)!, longitude: Double(pinlocation.longitude)!)
+            mapViewModel.showLineDeviceToAnnotation(annotationCoordinate: location2)
+            let locationcount = mapViewModel.locationToPin
+            print("ok pin \(String(describing: locationcount))")
+            if locationcount! < 1000 {
+                print("ok 1000")
+                if let userdata = viewModel.user {
+                    let request = DBRequest(userId: userdata.userId, email: userdata.email, dateCreated: Date(), location: nil)
+                    try await RequestManager.shared.setRequest(request: request)
+                    Utilities.shared.showAlert(title: "Success", message: "Check-in successful")
+                }
+            }
+            
+        }
     }
 }
 

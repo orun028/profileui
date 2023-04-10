@@ -93,6 +93,11 @@
 			<key>orderHint</key>
 			<integer>1</integer>
 		</dict>
+		<key>networkconect.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>4</integer>
+		</dict>
 		<key>profileui.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>

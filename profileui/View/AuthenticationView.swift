@@ -19,7 +19,7 @@ struct GoogleSignInResultModel {
 
 @MainActor
 final class AuthenticationViewModel: ObservableObject {
-    
+ 
     func signInGoogle() async throws {
         guard let topVC = Utilities.shared.topViewController() else {
             throw URLError(.cannotFindHost)
@@ -38,40 +38,23 @@ final class AuthenticationViewModel: ObservableObject {
     }
     
     func signInMicrosoft(provider: OAuthProvider) async throws {
-        var authDataResult: AuthDataResultModel!
-        
         provider.customParameters = [
-          "prompt": "consent",
+            "prompt": "login",
         ]
         provider.scopes = ["user.read"]
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            provider.getCredentialWith(nil) { credential, error in
-                if let error = error {
-                    print("Error getting Microsoft credential: \(error.localizedDescription)")
-                    return
-                }
-                guard let credential = credential else {
-                    print("No credential")
-                    return
-                }
-                print(credential)
-                Auth.auth().signIn(with: credential) { authResult, error in
-                    if let error = error {
-                        print("Error signing in with Microsoft: \(error.localizedDescription)")
-                        return
-                    }
-                    
-                    if let user = authResult?.user {
-                        authDataResult = AuthDataResultModel(user: user)
-                        
-                        // User is signed in with Microsoft.
-                    }
-                    
-                }
+        provider.getCredentialWith(nil) { credential, error in
+            if let error = error {
+                print("Error getting Microsoft credential: \(error.localizedDescription)")
+                return
             }
-//        }
-        if (authDataResult != nil) {
-            try await UserManager.shared.createNewUser(user: DBUser(auth: authDataResult))
+            guard let credential = credential else {
+                print("No credential")
+                return
+            }
+            Task {
+                let authDataResult = try await AuthenticationManager.shared.signIn(credential: credential)
+                try await UserManager.shared.createNewUser(user: DBUser(auth: authDataResult))
+            }
         }
     }
 }

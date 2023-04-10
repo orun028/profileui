@@ -11,7 +11,7 @@ import CoreLocation
 
 class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     
-    private let locationManager = CLLocationManager()
+    let locationManager = CLLocationManager()
     @Published var mapView = MKMapView()
     @Published var region: MKCoordinateRegion!
     @Published var permissionDenied = false
